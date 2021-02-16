@@ -60,5 +60,5 @@ if __name__ == '__main__':
     # invoke endpoint with Boto3 SDK
     test_endpoint(endpoint_name)
 
-    # don't forget ot delete the endpoint
-    predictor.delete_endpoint()
+    # don't forget to delete the endpoint
+    # predictor.delete_endpoint()

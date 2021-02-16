@@ -60,18 +60,6 @@ def test_trained_mode(model_path,output_path):
     np.savetxt(output_path, results, delimiter=',')
 
 
-# SageMaker default SM_MODEL_DIR=/opt/ml/model
-if os.getenv("SM_MODEL_DIR") is None:
-    os.environ["SM_MODEL_DIR"] = os.getcwd() + '/model'
-
-# SageMaker default SM_OUTPUT_DATA_DIR=/opt/ml/output
-if os.getenv("SM_OUTPUT_DATA_DIR") is None:
-    os.environ["SM_OUTPUT_DATA_DIR"] = os.getcwd() + '/output'
-
-# SageMaker default SM_CHANNEL_TRAINING=/opt/ml/input/data/training
-if os.getenv("SM_CHANNEL_TRAINING") is None:
-    os.environ["SM_CHANNEL_TRAINING"] = os.getcwd() + '/data'
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
@@ -85,8 +73,6 @@ if __name__ == '__main__':
     parser.add_argument('--learning_rate', type=float, default=0.01)
     parser.add_argument('--drop_rate', type=float, default=0.2)
     parser.add_argument('--dense_hidden', type=int, default=128)
-
-
 
     args, _ = parser.parse_known_args()
     print(args)
