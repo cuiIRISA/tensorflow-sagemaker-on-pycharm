@@ -115,7 +115,11 @@ def sagemaker_estimator(sagemaker_role, code_entry, code_dir, hyperparameters):
 
 SageMaker local mode, you will have managed TensorFlow Image from service account to be donwloaded into your local compute and show up in Docker. This docker image is the same as in SageMaker’s managed training or hosting environments, so you can debug your code locally and faster. 
 
-<img src="./illustration/docker.png" height="250">
+<img src="./illustration/build.png" height="300">
+
+
+
+<img src="./illustration/docker.png" height="200">
 
 
 
@@ -124,6 +128,10 @@ SageMaker local mode, you will have managed TensorFlow Image from service accoun
 *./sm_train.py*
 
 After you create the training job, SageMaker launches the ML compute instances and uses the training code and the training dataset to train the model. It saves the resulting model artifacts and other output in the S3 bucket you specified for that purpose.
+
+<img src="./illustration/train.png" height="350">
+
+
 
 <img src="./illustration/training.png" height="450">
 
@@ -149,6 +157,6 @@ Analytics with Amazon SageMaker Experiments and SageMaker Studio UX.
 
 SageMaker provides model hosting services for model deployment, as shown in the following diagram. SageMaker provides an HTTPS endpoint where your machine learning model is available to provide inferences.
 
-
+<img src="./illustration/deploy.png" height="350">
 
 <img src="./illustration/endpoint.png" height="200">
