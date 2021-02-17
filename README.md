@@ -12,7 +12,7 @@ In order to run training jobs on AWS, you will need:
 
 
 
-Setup:
+**Setup:**
 
 1. Create a new user with programmatic access that enables an access key ID and secret access key for the AWS CLI, attach permissions *AmazonSageMakerFullAccess* and *AmazonS3FullAccess* (limit the permissions to specific buckets if possible). You also need an execution role for SageMaker *AmazonSageMakerFullAccess* and *AmazonS3FullAccess*. SageMaker uses this execution role to perform operations on your behalf on the AWS hardware that is managed by SageMaker
 
@@ -26,7 +26,7 @@ Setup:
    Default output format [None]: json
    ```
 
-3. Install [Docker](https://docs.docker.com/get-docker/) and your favorite local Python IDE. Here we use Pycharm. Make sure you have all required python libraries to run your code locally. Add SageMaker Python SDK to your local library. You can use pip install sagemaker (or create a virtual environment with venv for your project then install sagemaker within virtual environment). See the [documentation](https://sagemaker.readthedocs.io/en/stable/v2.html)
+3. Install [Docker](https://docs.docker.com/get-docker/) and your favorite local Python IDE. Here we use Pycharm. Make sure that you have all required python libraries to run your code locally. Add SageMaker Python SDK to your local library. You can use pip install sagemaker (or create a virtual environment with venv for your project then install sagemaker within virtual environment). See the [documentation](https://sagemaker.readthedocs.io/en/stable/v2.html)
 
 ### Develop your ML algorithms on local computer
 
@@ -38,11 +38,13 @@ Many data scientists use local IDE for machine learning algorithm development, s
 
 
 
-### Make your code SageMaker compatible
+### Make your TensorFlow code SageMaker compatible
 
  *./tf_code/tf_script.py*
 
 To make your code compatible for SageMaker, you need to follow certain rules for reading input data and writing output model and other artifacts. The training script is very similar to a training script you might run outside of SageMaker, but you can access useful properties about the training environment through various environment variables. See [SageMaker Toolkits Containers Structure](https://docs.aws.amazon.com/sagemaker/latest/dg/amazon-sagemaker-toolkits.html)
+
+Here are some important environment variables used by SageMaker for managing the infrastructure:
 
 Input data location *SM_CHANNEL_{channel_name}*
 
@@ -84,7 +86,6 @@ if __name__ == '__main__':
     parser.add_argument('--train', type=str, default=os.environ.get('SM_CHANNEL_TRAINING'))
     parser.add_argument('--model_dir', type=str, default=os.environ.get('SM_MODEL_DIR'))
     parser.add_argument('--output_dir', type=str, default=os.environ.get('SM_OUTPUT_DATA_DIR'))
-    
 ```
 
 ### Test your ML algorithms on local computer with SageMaker SDK local mode
@@ -113,11 +114,11 @@ def sagemaker_estimator(sagemaker_role, code_entry, code_dir, hyperparameters):
     return sm_estimator
 ```
 
-SageMaker local mode, you will have managed TensorFlow Image from service account to be donwloaded into your local compute and show up in Docker. This docker image is the same as in SageMaker’s managed training or hosting environments, so you can debug your code locally and faster. 
+With SageMaker local mode, you will have the managed TensorFlow Image from service account donwloaded into your local compute and show up in Docker. This docker image is the same as in SageMaker’s managed training or hosting environments, so that you can debug your code locally and faster. 
 
 <img src="./illustration/build.png" height="300">
 
-
+You can see the service account tensorflow docker image is now running in your local computer. 
 
 <img src="./illustration/docker.png" height="200">
 
@@ -131,32 +132,31 @@ After you create the training job, SageMaker launches the ML compute instances a
 
 <img src="./illustration/train.png" height="350">
 
-
+In AWS SageMaker console, you will see your training job launched, together with all training job related meta data, including metrics for model accuracy, input data location, output data configuration, hyperparameters etc. This helps you to manage and track all your SageMaker training jobs. 
 
 <img src="./illustration/training.png" height="450">
 
 
 
-### Organize, Track And Compare Your Machine Learning Trainings with Amazon SageMaker Experiments
-
-SageMaker Experiments automatically tracks the inputs, parameters, configurations, and results of your iterations as *trials*. You can assign, group, and organize these trials into *experiments*. SageMaker Experiments is integrated with Amazon SageMaker Studio providing a visual interface to browse your active and past experiments, compare trials on key performance metrics, and identify the best performing models. See documentation for setting up [SageMaker Experiments](https://docs.aws.amazon.com/sagemaker/latest/dg/experiments.html)
-
-Amazon SageMaker Experiments offers a structured organization scheme to help users group and organize their machine learning iterations.
-
-* *Experiment* *:* a collection of *trials* that are observed, compared, and evaluated as a group
-
-* Trial : a set of steps or trial components
-
-* Trial component : manually or automatically tracking for SageMaker processing jobs, training jobs, and batch transform jobs. It can have a combination of inputs such as datasets, algorithms, and parameters, and produce specific outputs such as models, metrics, datasets, and checkpoints. 
-
-Analytics with Amazon SageMaker Experiments and SageMaker Studio UX. 
-
 ### Deploy your trained ML model on SageMaker Endpoint for real-time inference 
 
 *./sm_deploy.py*
 
-SageMaker provides model hosting services for model deployment, as shown in the following diagram. SageMaker provides an HTTPS endpoint where your machine learning model is available to provide inferences.
+Once your trained model seems satisfactory, you might want to test the real-time inference against an HTTPS endpoint, or with batch prediction. With SageMaker SDK, you can easily setup the inference environment to test your inference code, model performance *i.e.* accuracy, latency and throughput. 
+
+SageMaker provides model hosting services for model deployment, as shown in the following diagram. It provides an HTTPS endpoint where your machine learning model is available to perform inference.
 
 <img src="./illustration/deploy.png" height="350">
 
+The persistent endpoint deployed with SageMaker hosting services will show up in your AWS SageMaker console. 
+
 <img src="./illustration/endpoint.png" height="200">
+
+
+
+### Organize, Track And Compare Your Machine Learning Trainings with Amazon SageMaker Experiments
+
+Finally, if you have lots of experiments with different preprocessing configurations, different hyperparameters or even with different machine learning algorithms to test, I sugguest you to check SageMaker Experiments to help you group and organize their machine learning iterations. 
+
+SageMaker Experiments automatically tracks the inputs, parameters, configurations, and results of your iterations as *trials*. You can assign, group, and organize these trials into *experiments*. SageMaker Experiments is integrated with Amazon SageMaker Studio providing a visual interface to browse your active and past experiments, compare trials on key performance metrics, and identify the best performing models. See documentation for setting up [SageMaker Experiments](https://docs.aws.amazon.com/sagemaker/latest/dg/experiments.html)
+
