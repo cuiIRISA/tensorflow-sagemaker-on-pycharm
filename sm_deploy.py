@@ -9,7 +9,7 @@ from time import gmtime, strftime
 
 #https://sagemaker.readthedocs.io/en/stable/frameworks/tensorflow/deploying_tensorflow_serving.html#deploying-directly-from-model-artifacts
 
-sagemaker_role = 'arn:aws:iam::707684582322:role/service-role/AmazonSageMaker-ExecutionRole-20191024T163188'
+sagemaker_role = 'arn:aws:iam::70******AccountId:role/service-role/AmazonSageMaker-ExecutionRole'
 
 
 def sagemaker_deploy(model_artifacts_s3, sagemaker_role, initial_instance_count, instance_type, endpoint_name):
@@ -46,7 +46,7 @@ def test_endpoint(endpoint_name):
 
 
 if __name__ == '__main__':
-    model_artifacts_s3 ='s3://sagemaker-eu-west-1-707684582322/tf-mnist-training-16-14-43-05/output/model.tar.gz'
+    model_artifacts_s3 ='s3://sagemaker-eu-west-1-70******AccountId/tf-mnist-training-16-14-43-05/output/model.tar.gz'
     initial_instance_count = 1
     instance_type = 'ml.c5.xlarge'
     endpoint_name = 'tensorflow-inference-{}'.format(strftime("%d-%H-%M-%S", gmtime()))

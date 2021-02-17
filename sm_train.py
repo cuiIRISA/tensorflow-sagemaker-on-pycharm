@@ -5,7 +5,7 @@ import sagemaker
 from sagemaker.tensorflow import TensorFlow
 from sagemaker.tuner import IntegerParameter, CategoricalParameter, ContinuousParameter, HyperparameterTuner
 
-sagemaker_role = 'arn:aws:iam::707684582322:role/service-role/AmazonSageMaker-ExecutionRole-20191024T163188'
+sagemaker_role = 'arn:aws:iam::70******AccountId:role/service-role/AmazonSageMaker-ExecutionRole'
 
 
 def upload_training_data(session,base_job_name):

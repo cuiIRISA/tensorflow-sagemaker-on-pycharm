@@ -5,7 +5,7 @@ import os
 
 from sagemaker.local import LocalSession
 
-sagemaker_role = 'arn:aws:iam::707684582322:role/RandomRoleNameHere'
+sagemaker_role = 'arn:aws:iam::70******AccountId:role/RoleNameHere'
 sagemaker_session = LocalSession()
 sagemaker_session.config = {'local': {'local_code': True}}
 
